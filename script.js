@@ -3837,8 +3837,7 @@
         nombre.value = data.articulos[codigo] || ''; // Si no hay artículo, será una cadena vacía
     });
 
-    // Configurar el envío del formulario
-    document.getElementById('inventoryForm').addEventListener('submit', function (e) {
+    document.getElementById('inventoryForm').addEventListener('submit', async function (e) {
         e.preventDefault();
     
         const codigoArt = document.getElementById('codigoArt').value;
@@ -3849,56 +3848,39 @@
         const submitButton = document.querySelector('button[type="submit"]');
         submitButton.disabled = true;
     
+        // Crear y mostrar el loader (spinner)
+        const loader = document.createElement('div');
+        loader.classList.add('loader');  // Añade la clase loader para el spinner
+        document.body.appendChild(loader);  // Muestra el loader en el body
+    
         const scriptURL = 'https://script.google.com/macros/s/AKfycbz0n_moio85kjVeUwrsN5r4WiXNt6Z6Rq9uNQma2ZIUNja2o5X0ieGpmk64XsahSu2jbw/exec'; 
     
         const formData = new FormData();
-        formData.append('codigoArt', codigoArt);  // Nombre del campo
-        formData.append('nombre', nombre);        // Nombre del campo
-        formData.append('conteo', conteo);        // Nombre del campo
-        formData.append('responsable', responsable);  // Nombre del campo
+        formData.append('codigoArt', codigoArt);
+        formData.append('nombre', nombre);
+        formData.append('conteo', conteo);
+        formData.append('responsable', responsable);
     
-        fetch(scriptURL, { method: 'POST', body: formData })
-            .then(response => response.text())
-            .then(responseText => {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Éxito',
-                    text: 'Formulario enviado correctamente',
-                });
-                document.getElementById('inventoryForm').reset();
-            })
-            .catch(error => {
-                console.error('Error al enviar los datos:', error);
-                submitButton.disabled = false;
-    
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Hubo un problema al enviar el formulario. Inténtalo de nuevo.',
-                });
+        try {
+            const response = await fetch(scriptURL, { method: 'POST', body: formData });
+            const responseText = await response.text();
+            
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: 'Formulario enviado correctamente',
             });
+            document.getElementById('inventoryForm').reset();
+        } catch (error) {
+            console.error('Error al enviar los datos:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Hubo un problema al enviar el formulario. Inténtalo de nuevo.',
+            });
+        } finally {
+            loader.remove();  // Oculta el loader (spinner)
+            submitButton.disabled = false;
+        }
     });
     
-    
-
-    //     // Enviar los datos a Google Sheets a través de Google Apps Script
-    //     fetch(scriptURL, { method: 'POST', body: formData })        
-    //     .then(response => response.text())
-    //     .then(responseText => {
-    //         Swal.fire({
-    //             icon: 'success',
-    //             title: 'Éxito',
-    //             text: 'Formulario enviado correctamente',
-    //         });
-                
-    //     })
-    //     .catch(error => {
-    //         console.error('Error:', error);
-    //         Swal.fire({
-    //             icon: 'error',
-    //             title: 'Error',
-    //             text: 'No se pudo enviar el formulario.',
-    //             confirmButtonText: 'Aceptar'
-    //         });
-    //     });
-    // })
