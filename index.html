@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Inventario</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+</head>
+<body>
+    <h1>Formulario de Inventario</h1>
+    <form id="inventoryForm">
+        <label for="codigoArt">Código Artículo:</label>
+        <input type="text" id="codigoArt" name="codigoArt" required>
+
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" readonly>
+
+        <label for="conteo">Conteo:</label>
+        <input type="number" id="conteo" name="conteo" required>
+
+        <label for="responsable">Responsable:</label>
+        <select id="responsable" name="responsable" required></select>
+
+        <button type="submit">Enviar</button>
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
