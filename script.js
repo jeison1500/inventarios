@@ -3823,64 +3823,91 @@
         ]
     };
 
-     // Poblar el select de responsables
-    data.responsables.forEach(res => {
-        const option = document.createElement('option');
-        option.value = res;
-        option.textContent = res;
-        responsable.appendChild(option);
-    });
+    // Poblar el select de responsables
+data.responsables.forEach(res => {
+    const option = document.createElement('option');
+    option.value = res;
+    option.textContent = res;
+    responsable.appendChild(option);
+});
 
-    // Obtener el nombre del artículo según el código ingresado
-    codigoArt.addEventListener('input', () => {
-        const codigo = codigoArt.value;
-        nombre.value = data.articulos[codigo] || ''; // Si no hay artículo, será una cadena vacía
-    });
+// Obtener el nombre del artículo según el código ingresado
+codigoArt.addEventListener('input', () => {
+    const codigo = codigoArt.value;
+    nombre.value = data.articulos[codigo] || ''; // Si no hay artículo, será una cadena vacía
+});
 
-    document.getElementById('inventoryForm').addEventListener('submit', async function (e) {
-        e.preventDefault();
-    
-        const codigoArt = document.getElementById('codigoArt').value;
-        const nombre = document.getElementById('nombre').value;
-        const conteo = document.getElementById('conteo').value;
-        const responsable = document.getElementById('responsable').value;
-    
-        const submitButton = document.querySelector('button[type="submit"]');
-        submitButton.disabled = true;
-    
-        // Crear y mostrar el loader (spinner)
-        const loader = document.createElement('div');
-        loader.classList.add('loader');  // Añade la clase loader para el spinner
-        document.body.appendChild(loader);  // Muestra el loader en el body
-    
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbz0n_moio85kjVeUwrsN5r4WiXNt6Z6Rq9uNQma2ZIUNja2o5X0ieGpmk64XsahSu2jbw/exec'; 
-    
-        const formData = new FormData();
-        formData.append('codigoArt', codigoArt);
-        formData.append('nombre', nombre);
-        formData.append('conteo', conteo);
-        formData.append('responsable', responsable);
-    
-        try {
-            const response = await fetch(scriptURL, { method: 'POST', body: formData });
-            const responseText = await response.text();
-            
-            Swal.fire({
-                icon: 'success',
-                title: 'Éxito',
-                text: 'Formulario enviado correctamente',
-            });
-            document.getElementById('inventoryForm').reset();
-        } catch (error) {
-            console.error('Error al enviar los datos:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Hubo un problema al enviar el formulario. Inténtalo de nuevo.',
-            });
-        } finally {
-            loader.remove();  // Oculta el loader (spinner)
-            submitButton.disabled = false;
+// Crear un mapa para almacenar los códigos registrados con sus detalles
+const codigosRegistrados = new Map();
+
+document.getElementById('inventoryForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const codigoArt = document.getElementById('codigoArt').value;
+    const nombre = document.getElementById('nombre').value;
+    const conteo = document.getElementById('conteo').value;
+    const responsable = document.getElementById('responsable').value;
+
+    // Verificar si el código ya está registrado
+    if (codigosRegistrados.has(codigoArt)) {
+        const registroAnterior = codigosRegistrados.get(codigoArt); // Obtener detalles del registro anterior
+        const confirmacion = await Swal.fire({
+            icon: 'warning',
+            title: 'Código duplicado',
+            html: `
+                Este código ya ha sido registrado con los siguientes datos:<br>
+                <strong>Conteo:</strong> ${registroAnterior.conteo}<br>
+                <strong>Responsable:</strong> ${registroAnterior.responsable}<br><br>
+                ¿Desea volver a registrarlo?
+            `,
+            showCancelButton: true,
+            confirmButtonText: 'Continuar',
+            cancelButtonText: 'Cancelar',
+        });
+
+        if (!confirmacion.isConfirmed) {
+            return; // Si el usuario cancela, no continuar con la operación
         }
-    });
-    
+    }
+
+    // Si el código no está registrado o el usuario confirma, continuar
+    codigosRegistrados.set(codigoArt, { conteo, responsable }); // Registrar el código con sus detalles
+
+    const submitButton = document.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+
+    // Crear y mostrar el loader (spinner)
+    const loader = document.createElement('div');
+    loader.classList.add('loader'); // Añade la clase loader para el spinner
+    document.body.appendChild(loader); // Muestra el loader en el body
+
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbz0n_moio85kjVeUwrsN5r4WiXNt6Z6Rq9uNQma2ZIUNja2o5X0ieGpmk64XsahSu2jbw/exec';
+
+    const formData = new FormData();
+    formData.append('codigoArt', codigoArt);
+    formData.append('nombre', nombre);
+    formData.append('conteo', conteo);
+    formData.append('responsable', responsable);
+
+    try {
+        const response = await fetch(scriptURL, { method: 'POST', body: formData });
+        const responseText = await response.text();
+
+        Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: 'Formulario enviado correctamente',
+        });
+        document.getElementById('inventoryForm').reset();
+    } catch (error) {
+        console.error('Error al enviar los datos:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Hubo un problema al enviar el formulario. Inténtalo de nuevo.',
+        });
+    } finally {
+        loader.remove(); // Oculta el loader (spinner)
+        submitButton.disabled = false;
+    }
+});
