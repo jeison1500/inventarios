@@ -16,19 +16,43 @@
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="nombre" readonly>
 
+       <label for="talla">Talla:</label>
+<select id="talla" name="talla" required>
+  <option value="">Selecciona una talla</option>
+</select>
+
+<label for="color">Color:</label>
+<select id="color" name="color" required>
+  <option value="">Selecciona un color</option>
+</select>
         <label for="conteo">Conteo:</label>
-        <input type="number" id="conteo" name="conteo" required>
+        <input type="number" id="conteo" name="conteo" required> 
 
-        <label for="responsable">Responsable:</label>
-        <select id="responsable" name="responsable" required></select>
+              <label for="responsable">Responsable:</label>
+<select id="responsable" name="responsable" required>
+  <option value="">Selecciona un responsable</option>
+</select>
 
-        <button type="submit">Enviar</button>
+        <button type="button" id="guardarBtn">Guardar</button>
+
     </form>
 
+     <!-- Loader (debe estar antes del script.js)
+    <div id="loader" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.7); display:flex; align-items:center; justify-content:center; z-index:9999;">
+      <div class="spinner" style="border:8px solid #f3f3f3; border-top:8px solid #3498db; border-radius:50%; width:60px; height:60px; animation:spin 1s linear infinite;"></div>
+    </div>    
 
-    <div id="loader"></div>
+    <style>
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    </style> -->
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <script src="script.js"></script>
+
+
 </body>
 </html>
