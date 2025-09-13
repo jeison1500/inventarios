@@ -71,3 +71,23 @@ button:hover {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+
+#exportarBtn {
+  background-color: #007bff; /* mismo azul que Bootstrap o botón común */
+  color: white;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  height: 40px; /* igualar altura */
+  min-width: 120px; /* igualar ancho mínimo */
+}
+
+#exportarBtn:hover {
+  background-color: #0056b3;
+}
+

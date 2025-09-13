@@ -275,3 +275,55 @@ if (errorBusqueda && errorBusqueda.code !== 'PGRST116') {
 
 // Guardar al hacer clic en el botón
 guardarBtn.addEventListener("click", guardarConteo);
+
+
+
+
+document.getElementById("exportarBtn").addEventListener("click", async () => {
+    try {
+        Swal.fire({
+            title: "Exportando...",
+            text: "Por favor espera mientras generamos el archivo.",
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading()
+        });
+
+        const { data, error } = await supabase
+            .from("articulos_inventario")
+            .select("*");
+
+        if (error) {
+            console.error("❌ Error al obtener datos:", error);
+            Swal.fire("Error", "No se pudieron obtener los datos para exportar.", "error");
+            return;
+        }
+
+        if (!data || data.length === 0) {
+            Swal.fire("Vacío", "No hay datos para exportar.", "info");
+            return;
+        }
+
+        // Convertir datos a hoja de Excel
+        const worksheet = XLSX.utils.json_to_sheet(data);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Inventario");
+
+        // Generar archivo y descargar
+        const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+        const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "inventario_exportado.xlsx";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        Swal.fire("Éxito", "Archivo exportado correctamente.", "success");
+
+    } catch (err) {
+        console.error("❌ Error inesperado:", err);
+        Swal.fire("Error", "Ocurrió un problema al exportar los datos.", "error");
+    }
+});
