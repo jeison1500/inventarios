@@ -27,8 +27,15 @@
 <select id="color" name="color" required>
   <option value="">Selecciona un color</option>
 </select>
-        <label for="conteo">Conteo:</label>
-        <input type="number" id="conteo" name="conteo" required> 
+       <input
+  type="number"
+  id="conteo"
+  min="0"
+  step="1"
+  required
+  placeholder="Ingresa el conteo"
+/>
+
 
               <label for="responsable">Responsable:</label>
 <select id="responsable" name="responsable" required>
