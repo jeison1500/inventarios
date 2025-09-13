@@ -105,7 +105,26 @@ async function guardarConteo() {
         return;
     }
 
-    const nuevoConteo = parseInt(conteoInput.value);
+    const conteoValor = conteoInput.value.trim();
+
+// Validar que no esté vacío
+if (conteoValor === "") {
+    Swal.fire("Atención", "El campo de conteo es obligatorio.", "warning");
+    return;
+}
+
+// Validar que sea un número entero mayor que 0
+const nuevoConteo = Number(conteoValor);
+
+if (
+    isNaN(nuevoConteo) ||
+    !Number.isInteger(nuevoConteo) ||
+    nuevoConteo <= 0
+) {
+    Swal.fire("Atención", "Ingresa un número entero válido, mayor que cero.", "warning");
+    return;
+}
+
     const responsableNuevo = responsableSelect.value;
 
     try {
