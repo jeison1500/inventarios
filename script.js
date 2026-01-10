@@ -1,4 +1,4 @@
-// Configuración de Supabase
+// Configuración de Supab
 const supabaseUrl = 'https://kedoupkdpwipuznovetr.supabase.co';
 const supabaseKey = 'sb_publishable_XSWppeSV5RXXOTjBkbzv_g_y-ypwe93';
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
