@@ -1,6 +1,6 @@
 // Configuración de Supabase
 const supabaseUrl = 'https://kedoupkdpwipuznovetr.supabase.co';
-const supabaseKey = 'sb_secret_st_7KH9ano8LrrKlxthZgg_c0aV4nr8';
+const supabaseKey = 'sb_publishable_XSWppeSV5RXXOTjBkbzv_g_y-ypwe93';
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 // Elementos del formulario
