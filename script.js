@@ -1,6 +1,6 @@
 // Configuración de Supabase
-const supabaseUrl = 'https://mmwsywpdycbpvgrnyeuy.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1td3N5d3BkeWNicHZncm55ZXV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc3MTMzMzIsImV4cCI6MjA3MzI4OTMzMn0.kE8DoG7Vqf9YVTPLpgGp2trxL8Ay-_zcB5Jr-qpzYpo';
+const supabaseUrl = 'https://kedoupkdpwipuznovetr.supabase.co';
+const supabaseKey = 'sb_secret_st_7KH9ano8LrrKlxthZgg_c0aV4nr8';
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 // Elementos del formulario
