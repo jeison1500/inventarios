@@ -1,7 +1,8 @@
 // Configuración de Supab
-const supabaseUrl = 'https://kedoupkdpwipuznovetr.supabase.co';
-const supabaseKey = 'sb_publishable_XSWppeSV5RXXOTjBkbzv_g_y-ypwe93';
+const supabaseUrl = "https://tuproyecto.supabase.co";
+const supabaseKey = "sb_publishable_tuclavesecreta";
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
 
 // Elementos del formulario
 const codigoInput = document.getElementById("codigoArt");
