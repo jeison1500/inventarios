@@ -1,4 +1,3 @@
-// Configuración de Supab
 const supabaseUrl = "https://tuproyecto.supabase.co";
 const supabaseKey = "sb_publishable_tuclavesecreta";
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
